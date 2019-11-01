@@ -32,4 +32,12 @@ class BreweryClientTest {
 
         System.out.println(uri);
     }
+
+    @Test
+    void testUpdateBeer() {
+        //given
+        BeerDto beer = BeerDto.builder().beerName("Update beer test").build();
+
+        client.updateBeer(UUID.randomUUID(), beer);
+    }
 }
