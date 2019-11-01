@@ -1,6 +1,7 @@
 package guru.springframework.msscbreweryclient.web.client;
 
 import guru.springframework.msscbreweryclient.web.model.BeerDto;
+import guru.springframework.msscbreweryclient.web.model.CustomerDto;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -15,9 +16,11 @@ import java.util.UUID;
 @ConfigurationProperties(value = "sfg.brewery", ignoreUnknownFields = false)
 public class BreweryClient {
 
-    public final String BEER_PATH_V1 = "/api/v1/beer/";
-
     private String apiHost;
+
+    private String apiBeerPathV1;
+
+    private String apiCustomerPathV1;
 
     private final RestTemplate restTemplate;
 
@@ -26,19 +29,35 @@ public class BreweryClient {
     }
 
     public BeerDto getBeerById(UUID id) {
-        return restTemplate.getForObject(apiHost + BEER_PATH_V1 + id.toString(), BeerDto.class);
+        return restTemplate.getForObject(apiHost + apiBeerPathV1 + id.toString(), BeerDto.class);
     }
 
     public URI saveNewBeer(BeerDto beer) {
-        return restTemplate.postForLocation(apiHost + BEER_PATH_V1, beer);
+        return restTemplate.postForLocation(apiHost + apiBeerPathV1, beer);
     }
 
     public void updateBeer(UUID id, BeerDto beer) {
-        restTemplate.put(apiHost + BEER_PATH_V1 + id.toString(), beer);
+        restTemplate.put(apiHost + apiBeerPathV1 + id.toString(), beer);
     }
 
     public void deleteBeer(UUID id) {
-        restTemplate.delete(apiHost + BEER_PATH_V1 + id.toString());
+        restTemplate.delete(apiHost + apiBeerPathV1 + id.toString());
+    }
+
+    public CustomerDto getCustomerById(UUID id) {
+        return restTemplate.getForObject(apiHost + apiCustomerPathV1 + id.toString(), CustomerDto.class);
+    }
+
+    public URI saveNewCustomer(CustomerDto customer) {
+        return restTemplate.postForLocation(apiHost + apiCustomerPathV1, customer);
+    }
+
+    public void updateCustomer(UUID id, CustomerDto customer) {
+        restTemplate.put(apiHost + apiCustomerPathV1 + id.toString(), customer);
+    }
+
+    public void deleteCustomer(UUID id) {
+        restTemplate.delete(apiHost + apiCustomerPathV1 + id.toString());
     }
 
 }
